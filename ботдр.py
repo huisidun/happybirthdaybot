@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import random
 import os
 from dotenv import load_dotenv
+from flask import Flask  # Импортируем Flask
+import threading  # Для запуска Flask в отдельном потоке
 
 # Загружаем переменные из .env
 load_dotenv()
@@ -228,9 +230,24 @@ async def check_birthdays(context: ContextTypes.DEFAULT_TYPE):
         except ValueError:
             continue
 
+# Создаем Flask-приложение
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "I'm alive!", 200
+
+# Запускаем Flask в отдельном потоке
+def run_flask():
+    app.run(host='0.0.0.0', port=10000)
+
 # Основная функция
 if __name__ == '__main__':
-    # Создаем приложение
+    # Запускаем Flask в фоновом режиме
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.start()
+
+    # Создаем приложение для Telegram-бота
     application = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # Регистрируем команды и обработчики
