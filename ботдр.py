@@ -239,7 +239,9 @@ def home():
 
 # Запускаем Flask в отдельном потоке
 def run_flask():
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get('PORT', 10000))  # Используем порт из переменной окружения или 10000 по умолчанию
+    logging.info(f"Starting Flask server on port {port}...")
+    app.run(host='0.0.0.0', port=port)
 
 # Основная функция
 if __name__ == '__main__':
@@ -255,4 +257,5 @@ if __name__ == '__main__':
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     # Запускаем бота
+    logging.info("Starting Telegram bot...")
     application.run_polling()
