@@ -6,13 +6,13 @@ from datetime import datetime, timedelta
 import random
 import os
 from dotenv import load_dotenv
-from flask import Flask  # Импортируем Flask
-import threading  # Для запуска Flask в отдельном потоке
+from flask import Flask  #импорт Flask
+import threading  #для запуска Flask в отдельном потоке
 
-# Загружаем переменные из .env
+#загружаем переменные из .env
 load_dotenv()
 
-# Получаем токен из переменной окружения
+#получаем токен из переменной окружения
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 if not BOT_TOKEN:
@@ -259,3 +259,4 @@ if __name__ == '__main__':
     # Запускаем бота
     logging.info("Starting Telegram bot...")
     application.run_polling()
+
